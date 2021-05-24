@@ -7,37 +7,21 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
+    <EditText
+        android:id="@+id/text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></EditText>
+
+    <Button
+        android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Hello World!" />
+        android:text="추가하기" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="#F30202"
-        android:text="안녕하세요 차도리입니다." />
-
-    <RelativeLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:background="@color/purple_200"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/todo_list"/>
 
-        <TextView
-            android:id="@+id/first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="저는 1번입니다."/>
-
-        <TextView
-            android:id="@+id/second"
-            android:layout_toRightOf="@+id/first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="저는 2번입니다."/>
-
-    </RelativeLayout>
 
 </LinearLayout>
