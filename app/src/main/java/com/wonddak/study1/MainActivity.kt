@@ -2,11 +2,16 @@ package com.wonddak.study1
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wonddak.study1.databinding.ActivityMainBinding
+import com.wonddak.study1.room.AppDatabase
+import com.wonddak.study1.room.ToDoData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    var todolist  = mutableListOf("테스트1","테스트2","테스트3")
     private var adapter: ToDoAdapter? = null
 
 
@@ -15,18 +20,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val db =AppDatabase.getInstance(this)
 
         binding.btnAdd.setOnClickListener {
-            todolist.add(binding.textInput.text.toString())
-            adapter!!.notifyDataSetChanged()
-            binding.textInput.setText("")
+            GlobalScope.launch(Dispatchers.IO) {
+                db.TodoDao().insertTODO(ToDoData(null,binding.textInput.text.toString()))
+                binding.textInput.setText("")
+            }
         }
 
-        adapter = ToDoAdapter(todolist)
-        binding.todoList.adapter = adapter
-        binding.todoList.layoutManager = LinearLayoutManager(this)
-
+        db.TodoDao().getToDoData().observe(this, Observer {
+            adapter = ToDoAdapter(it,db)
+            binding.todoList.adapter = adapter
+            binding.todoList.layoutManager = LinearLayoutManager(this)
+        })
 
     }
 }
